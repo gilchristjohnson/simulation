@@ -1,0 +1,58 @@
+<mvsim_world version="1.0">
+	<!-- General simulation options -->
+	<simul_timestep>0</simul_timestep> <!-- Simulation fixed-time interval for numerical integration [seconds] or 0 to autodetermine -->
+
+	<!-- GUI options -->
+	<gui>
+		<ortho>false</ortho>
+		<show_forces>false</show_forces>
+		<force_scale>0.01</force_scale>
+		<show_sensor_points>false</show_sensor_points>
+		<headless>false</headless>
+		<cam_distance>35</cam_distance>
+		<headless>false</headless>
+		<fov_deg>60</fov_deg>
+		<refresh_fps>20</refresh_fps>
+		<!-- <follow_vehicle>r1</follow_vehicle> -->
+	</gui>
+
+	<!-- Light parameters -->
+	<lights>
+	</lights>
+
+	<!-- =============================
+		   Vehicle classes definition
+	     ============================= -->
+	<include file="../definitions/ackermann.vehicle.xml" />
+
+	<!-- ========================
+		   Vehicle(s) definition
+	     ======================== -->
+
+	<vehicle name="robot" class="car_ackermann">
+		<init_pose>0 0 0</init_pose>  <!-- In global coords: x,y, yaw(deg) -->
+		<init_vel>0 0 0</init_vel>  <!-- In local coords: vx,vy, omega(deg/s) -->
+
+		<publish>
+		  <publish_pose_topic>/${NAME}/pose</publish_pose_topic>
+		  <publish_pose_period>50e-3</publish_pose_period>
+		</publish>
+
+		<!-- Sensors -->
+		<include file="../definitions/rgbd_camera.sensor.xml" sensor_x="1.9" sensor_z="0.5" sensor_yaw="0" sensor_period_sec="0.10" show_3d_pointcloud="false" sensor_name="rgbd" />
+		<include file="../definitions/ouster-os1.sensor.xml" sensor_x="0.5" sensor_z="1.05" sensor_yaw="0" sensor_period_sec="0.10" sensor_std_noise="0.005" show_3d_pointcloud="false" sensor_name="lidar" />
+	</vehicle>
+
+	<vehicle name="target" class="car_ackermann">
+
+		<init_pose>5 0 0</init_pose>  <!-- In global coords: x,y, yaw(deg) -->
+		<init_vel>0 0 0</init_vel>  <!-- In local coords: vx,vy, omega(deg/s) -->
+
+		<publish>
+		  <publish_pose_topic>/${NAME}/pose</publish_pose_topic>
+		  <publish_pose_period>50e-3</publish_pose_period>
+		</publish>
+
+	</vehicle>
+
+</mvsim_world>
